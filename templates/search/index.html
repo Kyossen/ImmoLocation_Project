@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>ImmoLocation - Accueil</title>
+    <meta charset="utf-8">
+</head>
+
+{% extends 'search/base.html' %}
+
+{% block content %}
+{% load static %}
+
+<!-- Masthead -->
+<header class="masthead">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center justify-content-center text-center">
+            <div class="col-lg-10 align-self-end">
+                <h1 class="text-uppercase text-white font-weight-bold">Des locations
+                    partout, et à disposition !</h1>
+                <hr class="divider my-4">
+            </div>
+            <div class="col-lg-8 align-self-baseline">
+                <h2 class="text-white-75 font-weight-light mb-5">Trouvez un appartement à louer !
+                    A tout moment !</h2>
+                <form class="form-inline col-lg-10 col-xs-10 align-self-baseline mid_find"
+                      action="{% url 'result' %}"
+                      method="POST">
+                    {% csrf_token %}
+                    <div class="form-inline pull-right mid_find">
+                        <div id="query_search"
+                             class="form-group {% if form.userFood.errors %}has-warning has-feedback{% endif %}">
+                            <label for="{{ form.userSearch.id_for_label }}">
+                                {{ form_announce.announce }}
+
+                                <button class="btn btn-primary btn-xs js-scroll-trigger" id="find_mid">Recherche
+                                </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- About Section -->
+<section class="page-section bg-primary" id="about">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="text-white mt-0">ImmoLocation</h2>
+                <hr class="divider light my-4">
+                <p class="text-white-50 mb-4">Nous tenons à vous faire part d'une petite présentation.<br/>
+                    ImmoLocation est une jeune startup que nous avons décidés de fonder.<br/>
+                    Nous sommes deux propriétaires de Paris.<br/>
+                    Notre but, est de pouvoir permettre
+                    la mise à disposition de location (pour les propriétaires).<br/>
+                    Mais également, de pouvoir louer ces derniers (pour les locataires).</p>
+            </div>
+        </div>
+        <div class="banniere">
+            <div class="container_result_idx">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-xl-6">
+                        <div class="mt-5">
+                            <img src="{% static 'search/img/Paris.jpg' %}" class="img_index img_paris" alt=""/>
+                            <p class="name_img_index">France !</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="mt-5">
+                            <img src="{% static 'search/img/Japon.jpg' %}" class="img_index img_paris" alt=""/>
+                            <p class="name_img_index">Japon !</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="page-section" id="contact">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="mt-0">Contactez-nous !</h2>
+                <hr class="divider my-4">
+                <p class="text-muted mb-5">Nous avons tous besoin d'une location ! </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 ml-auto text-center mb-5 mb-lg-0">
+                <i class="fas fa-phone fa-3x mb-3 text-muted"></i>
+                <div>+1 (202) 555-0149</div>
+            </div>
+            <div class="col-lg-4 mr-auto text-center">
+                <i class="fas fa-envelope fa-3x mb-3 text-muted"></i>
+                <!-- Make sure to change the email address in anchor text AND the link below! -->
+                <a class="d-block" href="mailto:contact@yourwebsite.com">contact@yourwebsite.com</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+</html>

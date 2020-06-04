@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>ImmoLocation - Les informations du locataire</title>
+    <meta charset="utf-8">
+</head>
+
+{% extends 'search/base.html' %}
+
+{% block content %}
+
+<header class="masthead resize-page">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center justify-content-center text-center">
+            <div>
+                <h2 class="text-uppercase text-white font-weight-bold">
+                    Les informations du locataire:
+                </h2>
+                {% if error_handler %}
+                <p id="not_found">{{ error_handler }}</p>
+                {% endif %}
+            </div>
+            {% if not error_handler %}
+            <div class="col-lg-10 align-self-end favorites_container">
+                <div class="container container_result_des wrap_des">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Prénom</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Téléphone</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="color_blue">{{ first_name }}</td>
+                                <td class="color_white">{{ last_name }}</td>
+                                <td class="color_white">{{ email }}</td>
+                                <td class="color_white">{{ phone }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+</header>
+
+{% endblock %}
+</html>

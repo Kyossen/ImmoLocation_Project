@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>ImmoLocation - Mes offres</title>
+    <meta charset="utf-8">
+</head>
+
+{% extends 'search/base.html' %}
+
+{% block content %}
+
+<header class="masthead resize-page">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center justify-content-center text-center">
+            <div>
+                <h2 class="text-uppercase text-white font-weight-bold">
+                    Gérer vos offres de location:
+                </h2>
+                {% if error_handler %}
+                <p id="not_found">{{ error_handler }}</p>
+                {% endif %}
+            </div>
+            {% if not error_handler %}
+            <div class="col-lg-10 align-self-end favorites_container">
+                <div class="container container_result_des wrap_des">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Titre</th>
+                                <th scope="col">Ville</th>
+                                <th scope="col">Pays</th>
+                                <th scope="col">Adresse</th>
+                                <th scope="col">Loué</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            {% for info in informations_announces %}
+                            <tbody>
+                            <tr>
+                                <td class="color_blue">{{info.title}}</td>
+                                <td class="color_white">{{info.city}}</td>
+                                <td class="color_white">{{info.country}}</td>
+                                <td class="color_white">{{info.address}}</td>
+                                <td>
+                                    <a class="nav-link js-scroll-trigger"
+                                       href="{% url 'user_booking_info' %}?user={{info.code}}">
+                                        {{info.booking}}</a>
+                                </td>
+                                <td>
+                                    <a class="nav-link js-scroll-trigger"
+                                       href="{% url 'delete_rent' %}?announce={{info.code}}">Supprimer</a>
+                                </td>
+                                <td>
+                                    <a class="nav-link js-scroll-trigger"
+                                       href="{% url 'change_price' %}?announce={{info.code}}">Modifier le prix</a>
+                                </td>
+                                <td>
+                                    <a class="nav-link js-scroll-trigger"
+                                       href="{% url 'change_pics' %}?announce={{info.code}}">Modifier les photos</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                            {% endfor %}
+                        </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+</header>
+
+<div class="pagination page_container_fav">
+    <span class="step-links page_fav">
+        {% if nb_page.has_previous %}
+            <a href="?page=1">&laquo; Première page</a> -
+            <a href="?page={{ nb_page.previous_page_number }}">Page précédente</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ nb_page.number }} / {{ nb_page.paginator.num_pages }}
+        </span>
+
+        {% if nb_page.has_next %}
+            <a href="?page={{ nb_page.next_page_number }}">Page suivante</a> -
+            <a href="?page={{ nb_page.paginator.num_pages }}">Dernière page &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock %}
+</html>

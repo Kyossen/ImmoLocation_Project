@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>ImmoLocation - Description de la location</title>
+    <meta charset="utf-8">
+</head>
+
+{% extends 'search/base.html' %}
+
+{% block content %}
+
+<header class="masthead">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center justify-content-center text-center">
+            <div class="row align-items-center justify-content-center text-center col-lg-10 col-xl-10">
+                <h2 class="text-uppercase text-white font-weight-bold">
+                    Description de la location:
+                </h2>
+                {% if error_description %}
+                <div class="info_des">
+                    <p class="result_error">{{ error_description }}</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-lg-10 align-self-end center form-inline display_content">
+                {% if not error_description %}
+                <div>
+                    <p class="wheat_text">N'hésitez pas à cliquer sur une photo afin de l'aggrandir &#128513;
+                    </p>
+                </div>
+                <div class="container row container_result wrap">
+                    <div class="result col-md-4">
+                        <img class="img_des_data" src="search/{{ announce_img_1 }}" alt="Cliquez pour aggrandir"
+                             id="pics_1" onClick="zoom_pics_1()">
+                    </div>
+                    <div class="result col-md-4">
+                        <img class="img_des_data" src="search/{{ announce_img_2 }}" alt="Cliquez pour aggrandir"
+                             id="pics_2" onClick="zoom_pics_2()">
+                    </div>
+                    <div class="result col-md-4">
+                        <img class="img_des_data" src="search/{{ announce_img_3 }}" alt="Cliquez pour aggrandir"
+                             id="pics_3" onClick="zoom_pics_3()">
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+</header>
+
+<div class="row_des row">
+    <div class="score_des col-md-6">
+        <p class="text_orange large_size text_align_center">Informations:</p>
+        <p class="rental_information_description text_align_center">{{ announce_city }}</p>
+        <p class="rental_information_description text_align_center">{{ announce_country }}</p>
+        <p class="rental_information_description text_align_center">Prix TTC à la journée: <br/>
+            {{ announce_price_day }} (€)</p>
+        <p class="rental_information_description text_align_center">Prix TTC à la semaine: <br/>
+            {{ announce_price_weeks }} (€)</p>
+    </div>
+
+    <div class="data_des col-md-6">
+        <p class="text_orange large_size text_align_center">Description du bien:</p>
+        <p class="announce_description text_align_center">{{ announce_description }}<br/></p>
+    </div>
+</div>
+
+<div class="info_des text_align_center">
+    <p class="info_des text_orange">Pour plus d'informtations veuillez contacter le propriétaire. Merci <br/></p>
+    <p class="info_des text_blue_des">{{ announce_email }}<br/></p>
+</div>
+
+<div class="info_des text_align_center">
+    <a class="info_des text_orange" href="/users/rent_now.html?announce={{ announce_code }}">Louer</a>
+</div>
+
+{% endblock %}
+</html>

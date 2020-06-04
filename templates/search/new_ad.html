@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>ImmoLocation - Créer une annonce</title>
+    <meta charset="utf-8">
+</head>
+
+{% extends 'search/base.html' %}
+
+{% block content %}
+
+<header class="header_new_rent resize-header">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center justify-content-center text-center">
+            <div class="align-self-end">
+                <h2 class="text-uppercase text-white font-weight-bold">
+                    Créer une annonce</h2>
+                {% if error_price %}
+                <div class="info_des">
+                    <p class="result_error">{{ error_price }}</p>
+                </div>
+                {% endif %}
+                <form class="form-inline align-self-baseline mid_find container row signUP_style"
+                      action="{% url 'new_ad' %}"
+                      method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="container">
+                        <div class="form-group mid_find row col-md-6 block champs_signUP">
+                            <p class="info">Titre de l'annonce<br/></p>
+                            <label for="{{ form.Title.id_for_label }}">
+                                <p>{{ form_ad.title }}<br/></p>
+                        </div>
+                        <div class="form-group mid_find row col-md-6 block champs_signUP">
+                            <p class="info">Adresse<br/></p>
+                            <label for="{{ form.Address.id_for_label }}">
+                                <p>{{ form_ad.address }}<br/></p>
+                        </div>
+                        <div class="form-group mid_find row col-md-6 block champs_signUP
+                                    description_area">
+                            <p class="info">Description<br/></p>
+                            <label for="{{ form.Description.id_for_label }}">
+                                <p>{{ form_ad.description }}<br/>
+                        </div>
+                        <div class="form-group mid_find row col-md-6 block champs_signUP">
+                            <p class="info">Ville<br/></p>
+                            <label for="{{ form.City.id_for_label }}">
+                                <p>{{ form_ad.city }}<br/></p>
+                        </div>
+                        <div class="form-group mid_find row col-md-6 block champs_signUP">
+                            <p class="info">Pays<br/></p>
+                            <label for="{{ form.Country.id_for_label }}">
+                                <p>{{ form_ad.country }}<br/></p>
+                        </div>
+                        <div class="form-group mid_find row col-md-6 block champs_signUP">
+                            <p class="info">Prix TTC à la journée<br/></p>
+                            <label for="{{ form.PriceDay.id_for_label }}">
+                                <p>{{ form_ad.price_day }}<br/></p>
+                        </div>
+                        <div class="form-group mid_find row col-md-6 block champs_signUP">
+                            <p class="info">Prix TTC à la semaine <br />
+                                (Ce montant doit correspondre au montant journalier
+                                multiplié à la semaine, merci.)<br/></p>
+                            <label for="{{ form.PriceWeeks.id_for_label }}">
+                                <p>{{ form_ad.price_weeks }}<br/></p>
+                        </div>
+                        <div class="form-group mid_find row col-md-6 block champs_signUP">
+                            <p class="info">Date à partir de la quelle
+                                votre location est disponible<br/></p>
+                            <input name="date" type="date"><br/>
+                        </div>
+                        <div class="form-group mid_find row col-md-6 block champs_signUP">
+                            <p class="info margin_15">Email de contact professionnel<br/></p>
+                            <label for="{{ form.userEmail.id_for_label }}">
+                                <p>{{ form_ad.email }}<br/></p>
+                        </div>
+                        <div class="form-group mid_find row col-md-6 block champs_signUP">
+                            <p class="info info_color">Les photos/images doivent être en extension JPEG ou PNG<br/></p>
+                            <p class="info">Photos 1<br/></p>
+                            <input type="file" name="pics_1" required>
+                        </div>
+                        <div class="form-group mid_find row col-md-6 block champs_signUP">
+                            <p class="info">Photos 2<br/></p>
+                            <input type="file" name="pics_2" required>
+                        </div>
+                        <div class="form-group mid_find row col-md-6 block champs_signUP">
+                            <p class="info">Photos 3<br/></p>
+                            <input type="file" name="pics_3" required>
+                        </div>
+                        <button class="btn btn-primary btn-xs js-scroll-trigger margin_15 margin_bot_15"
+                                onclick="connect()" id="connect">
+                            Ajouter l'annonce !
+                        </button>
+
+                        <div class="spinner-border text-warning button-connect mid_find
+                    row" id="spinner" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+</html>
