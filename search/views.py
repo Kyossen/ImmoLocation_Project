@@ -13,6 +13,7 @@ from django.shortcuts import render
 # Import file
 from .forms import AnnounceForm, ParagraphErrorList
 from user.models import Announces
+from user.views import auto_delete_booking
 
 
 def index(request):
@@ -36,6 +37,11 @@ def result(request):
     context = {}
     list_rental = []
     if request.method == 'POST':
+
+        # Check if some reservation is to be deleted today
+        auto_delete_booking(request)
+
+
         # Check if input is good
         if request.POST.get('announce') == "":
             context['form_announce'] = AnnounceForm()

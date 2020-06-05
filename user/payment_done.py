@@ -6,6 +6,7 @@ This import is mandatory for the good of the system"""
 
 # Import Django
 from django.core.mail import send_mail
+from django.shortcuts import render
 
 # Import file
 from search.forms import AnnounceForm
@@ -32,31 +33,39 @@ def rent_validation_done(request):
     and save the booking"""
     context = {}
     user = User.objects.get(id=request.session['member_id'])
-    email_validation_customer(request, user)
-    email_validation_trader(request, list_info_rent[3],
-                            list_info_rent[4])
-    new_rental = MyRental(
-        user=user,
-        rental_city=list_info_rent[0],
-        rental_country=list_info_rent[1],
-        email_user_rental=user.email,
-        code=list_info_rent[2]
-    )
 
-    new_booking = Booking(
-        user=user,
-        code=list_info_rent[2],
-        date_min=list_info_rent[5],
-        date_max=list_info_rent[6]
-    )
+    if len(list_info_rent) == 0:
+        context['error_rent_validation'] = \
+            "Veuillez nous excuser une erreur c'est produite. \n " \
+            "Nous vous conseillons de réessayer ultérieurement."
+        context['form_announce'] = AnnounceForm()
+        return render(request, 'search/rent_now.html', context)
+    else:
+        email_validation_customer(request, user)
+        email_validation_trader(request, list_info_rent[3],
+                                list_info_rent[4])
 
-    update_announce = Announces.objects.get(code=list_info_rent[2])
-    update_announce.booking = "Votre bien est actuellement loué."
+        new_rental = MyRental(
+            user=user,
+            rental_city=list_info_rent[0],
+            rental_country=list_info_rent[1],
+            email_user_rental=user.email,
+            code=list_info_rent[2]
+        )
+        new_rental.save()
 
-    update_announce.save()
-    new_booking.save()
-    new_rental.save()
-    context['form_announce'] = AnnounceForm()
+        new_booking = Booking(
+            user=user,
+            code=list_info_rent[2],
+            date_min=list_info_rent[5],
+            date_max=list_info_rent[6]
+        )
+        update_announce = Announces.objects.get(code=list_info_rent[2])
+        update_announce.booking = "Votre bien est actuellement loué."
+
+        update_announce.save()
+        new_booking.save()
+        context['form_announce'] = AnnounceForm()
 
 
 def email_validation_customer(request, user):

@@ -121,8 +121,6 @@ class Announces(models.Model):
                                       null=False)
     price_day = models.IntegerField(default=None,
                                     null=False)
-    date = models.DateField(default=None,
-                            null=True)
     booking = models.CharField(max_length=100,
                                default=None,
                                null=True)

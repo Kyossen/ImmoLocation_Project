@@ -40,7 +40,6 @@ class PaymentPageTestCase(TestCase):
             country='test',
             price_day=100,
             price_weeks=150,
-            date='2020-04-30',
             email='test@hotmail.fr',
             pics_1='test',
             pics_2='test',

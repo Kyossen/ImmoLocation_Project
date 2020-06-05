@@ -125,26 +125,13 @@ $(function datepicker() {
 She records the click that selects a non-registered
     favorite food and will indicate it to the system to create the record */
 
-var url = window.location.href;
 
-        var date = 'test'
-        $.ajax({
-            type: 'GET',
-            url: url,
-            data: {"date": date},
-            dataType: 'json',
-            success: function (data) {
-                console.log(url)
-                if (data['date_min']){
-                    console.log('True')
-                }
-            },
-            error: function (response) {
-                console.log(response)
-            }
-        })
-
-
-response.json().then(function(data) {
-  console.log('true')
-});
+$(document).ready(function () {
+    if (document.getElementsByClassName('datepicker')) {
+        var url = window.location.href;
+        console.log(url);
+        $.get("date_min.txt", function (data) {
+            console.log(data)
+        }, 'text')
+    }
+})

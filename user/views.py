@@ -8,6 +8,7 @@ this view file because it gives access to forms and templates
 Imports of Django lib, is a base for well functioning"""
 
 # Import lib
+import os
 import time
 from datetime import date, datetime
 from random import randrange
@@ -76,6 +77,10 @@ def connect(request):
     """The connect function is the function
     allow a user of the connect on the platform"""
     context = {}
+
+    # Check if some reservation is to be deleted today
+    auto_delete_booking(request)
+
     # Check if user is connect or not
     if not request.user.is_authenticated:
         if request.method == 'POST':
@@ -188,7 +193,6 @@ def new_ad(request):
         r_country = request.POST.get('country')
         r_price_day = request.POST.get('price_day')
         r_price_weeks = request.POST.get('price_weeks')
-        r_date = request.POST.get('date')
         r_email = request.POST.get('email')
         r_pics_1 = request.FILES['pics_1']
         r_pics_2 = request.FILES['pics_2']
@@ -209,7 +213,6 @@ def new_ad(request):
                                country=r_country,
                                price_day=r_price_day,
                                price_weeks=r_price_weeks,
-                               date=r_date,
                                email=r_email,
                                pics_1=r_pics_1,
                                pics_2=r_pics_2,
@@ -345,21 +348,32 @@ def rent_now(request):
 
 
 def check_the_available_dates(request, booking):
-    context = {}
+    pass
+    """
+    all_dates_d1 = []
+    all_dates_d2 = []
     for info in booking:
-        print(info.date_min)
-        print(type(info.date_min))
         date_min_good = info.date_min.replace("-", "/")
         date_max_good = info.date_max.replace("-", "/")
         d1 = (datetime.strptime(date_min_good, "%d/%m/%Y"))
         d2 = (datetime.strptime(date_max_good, "%d/%m/%Y"))
-        print('D1: ', d1)
-        print('D2: ', d2)
-        time_booking = str(f"{d1.day - d2.day}")
-        print(time_booking)
-        data = {'date_min': d1,
-                'date_max': d2}
-        return JsonResponse(data)
+        if d1 not in all_dates_d1:
+            all_dates_d1.append(d1)
+        if d2 not in all_dates_d2:
+            all_dates_d2.append(d2)
+        file_date_min = os.path.isfile("user/date_min.txt")
+        file_date_max = os.path.isfile("user/date_max.txt")
+        if file_date_min is True:
+            os.remove("user/date_min.txt")
+        if file_date_max is True:
+            os.remove("user/date_max.txt")
+        with open("user/date_min.txt", "x") as file:
+            for info_dates in all_dates_d1:
+                file.write(str(info_dates))
+        with open("user/date_max.txt", "x") as file:
+            for info_dates in all_dates_d2:
+                file.write("\n" + str(info_dates))
+        """
 
 
 def rent_validation(request):
@@ -418,6 +432,37 @@ def display_my_rented(request, rented_all):
     context['announce_rented'] = paginator.page(page)
     context['form_announce'] = AnnounceForm()
     return render(request, 'user/my_rent.html', context)
+
+
+def auto_delete_booking(request):
+    """This method delete from databse the booking
+     if this she it's finish"""
+    all_rented = MyRental.objects.all()
+    all_booking = Booking.objects.all()
+    date_done = date.today().strftime("%d-%m-%Y")
+    if len(all_booking) != 0 and len(all_rented) != 0:
+        for info_booking in all_booking:
+            if info_booking.date_max == date_done:
+                for info_rented in all_rented:
+
+                    if info_booking.code == info_rented.code:
+                        remove_rented = \
+                            MyRental.objects.get(pk=info_rented.pk)
+                        remove_booking = \
+                            Booking.objects.get(pk=info_booking.pk)
+                        remove_rented.delete()
+                        remove_booking.delete()
+                        change_announce = \
+                            Announces.objects.get(code=info_booking.code)
+                        change_announce.booking = ""
+                        change_announce.save()
+
+                    else:
+                        pass
+            else:
+                pass
+    else:
+        pass
 
 
 def cancel_rented(request):
