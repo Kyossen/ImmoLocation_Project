@@ -17,7 +17,8 @@ from user.models import User, Announces, MyRental, Booking
 from user.views import dashboard, add_email_paypal, delete_my_offer, \
     change_price_validation, rent_now, disconnect, \
     user_booking_info, rented, cancel_myrented, change_pics, \
-    handler_ad, change_price, new_ad
+    handler_ad, change_price, new_ad, \
+    auto_delete_booking , check_the_available_dates
 from user.payment_done import get_info_booking, rent_validation_done
 from payment.views import payment_process
 
@@ -685,8 +686,26 @@ class RentNowTestCase(TestCase):
             code=1000,
             user_id=1
         )
-
         self.new_announce.save()
+
+        self.new_myrental = MyRental(
+            pk=1,
+            rental_city='test',
+            rental_country='test',
+            email_user_rental='test@hotmail.fr',
+            code=1000,
+            user_id=1
+        )
+        self.new_myrental.save()
+
+        self.new_booking = Booking(
+            pk=1,
+            date_min='2020/01/01',
+            date_max='2020/02/02',
+            code=1000,
+            user_id=1
+        )
+        self.new_booking.save()
 
     def test_rent_now_page_return_200_1(self):
         """Test access rent now with user connected"""
@@ -719,6 +738,15 @@ class RentNowTestCase(TestCase):
                                        user.email_paypal,
                                        amount)
             self.assertEqual(response.status_code, 200)
+
+    def test_check_the_available_dates(self):
+        """Test check the available dates"""
+        print('Test check the available dates')
+        request = self.factory.get(reverse('check_dates'),
+                                   {'announce': 1000})
+        request.user = self.user
+        response = check_the_available_dates(request)
+        self.assertEqual(response.status_code, 200)
 
 
 class MyRentPageTestCase(TestCase):
@@ -767,6 +795,15 @@ class MyRentPageTestCase(TestCase):
         )
         self.new_myrental.save()
 
+        self.new_booking = Booking(
+            pk=1,
+            date_min='2020/01/01',
+            date_max='2020/02/02',
+            code=1000,
+            user_id=1
+        )
+        self.new_booking.save()
+
     def test_myRent_page_return_200_1(self):
         """MyRented access test with user connected"""
         print('Myrented access with user connected')
@@ -780,6 +817,13 @@ class MyRentPageTestCase(TestCase):
         print('Myrented access test with user not connected')
         response = self.client.get(reverse('rented'))
         self.assertEqual(response.status_code, 200)
+
+    def test_auto_delete_booking(self):
+        """Test auto delete booking with user connected"""
+        print('Test auto delete booking with user connected')
+        request = self.factory.get(reverse('connect'))
+        request.user = self.user
+        auto_delete_booking(request)
 
 
 class InfoUserBooking(TestCase):

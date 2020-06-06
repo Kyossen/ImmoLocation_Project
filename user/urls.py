@@ -42,6 +42,8 @@ urlpatterns = [
     url(r'^new_ad.html', views.new_ad, name="new_ad"),
     url(r'^handler_ad.html', views.handler_ad, name="handler_ad"),
     url(r'^rented.html', views.rented, name="rented"),
+    url(r'^check_dates.html', views.check_the_available_dates,
+        name="check_dates"),
 
     # Booking canceled URL
     url(r'^cancel_rented.html', views.cancel_rented,

@@ -71,22 +71,10 @@ if (document.getElementsByName('submit')) {
     $("input").attr("src", "https://www.paypal.com/fr_FR/i/btn/btn_buynowCC_LG.gif");
 }
 
-
-var disabledDates = ["28-06-2020", "21-06-2020"]
-
-
 /* This function allow of manage the booking dates of the user */
 $(function datepicker() {
 
-    /* Get the available dates */
-
     $(".datepicker").datepicker({
-
-        /* Check the available dates */
-        beforeShowDay: function (date) {
-            var string = jQuery.datepicker.formatDate('dd-mm-yy', date);
-            return [disabledDates.indexOf(string) == -1]
-        },
 
         /* Configure DatePicker settings */
         altField: "#datepicker",
@@ -108,7 +96,8 @@ $(function datepicker() {
             if (this.id === 'datepicker_to_go') {
                 /* Block the min date for the max date field */
                 var minDate = $('#datepicker_to_go').datepicker('getDate');
-                $("#datepicker_return").datepicker("change", {minDate: minDate});
+                var next_date = new Date(minDate.getTime() + 86400000);
+                $("#datepicker_return").datepicker("change", {minDate: next_date});
             }
 
             if (this.id === 'datepicker_return') {
@@ -119,19 +108,3 @@ $(function datepicker() {
         }
     });
 });
-
-
-/* The function below record a click of the user
-She records the click that selects a non-registered
-    favorite food and will indicate it to the system to create the record */
-
-
-$(document).ready(function () {
-    if (document.getElementsByClassName('datepicker')) {
-        var url = window.location.href;
-        console.log(url);
-        $.get("date_min.txt", function (data) {
-            console.log(data)
-        }, 'text')
-    }
-})

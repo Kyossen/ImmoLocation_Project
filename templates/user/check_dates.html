@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>ImmoLocation - Dates disponbiles</title>
+    <meta charset="utf-8">
+</head>
+
+{% extends 'search/base.html' %}
+
+{% block content %}
+
+<header class="header_new_rent">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center justify-content-center text-center">
+            <div class="col-lg-10 align-self-end mid_find">
+                <h2 class="text-uppercase text-white font-weight-bold">
+                    Dates disponbiles</h2>
+
+                <p class="color_white">Nous tenons à nous excuser pour ce désagrément. <br/>
+                    Il ce trouve que du fait d'un problème technique,
+                    nous ne pouvons donner accès aux dates
+                    disponibles de nos locations directement depuis les calendriers. <br/>
+                    Ce problème est en cours de résolution et sera résolus dans les plus brefs délais. <br>
+                    Vous retrouverez chaque dates non disponibles depuis cette page pour chaque annonces. <br/>
+                    Nous vous remercions de votre compréhension.</p>
+
+                <div class="flex_display">
+                    {% for info in dates_min %}
+                    <div class="form-group mid_find row col-md-6 block champs_signUP">
+                        <label class="color_white info larger_size" for="dates">Loué du :</label>
+                        <p class="color_red info larger_size" name="dates">{{info}}<br/></p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="flex_display">
+                    {% for info in dates_max %}
+                    <div class="form-group mid_find row col-md-6 block champs_signUP">
+                        <label class="color_white info larger_size" for="dates">Jusqu'au :</label>
+                        <p class="color_red info larger_size" name="dates">{{info}}<br/></p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+</html>

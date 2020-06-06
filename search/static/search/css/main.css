@@ -278,6 +278,10 @@ header.header_new_rent h1 {
     font-size: large;
 }
 
+.flex_display {
+    display: flex;
+}
+
 .wrap_des {
     flex-wrap: wrap;
 }

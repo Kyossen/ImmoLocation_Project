@@ -56,12 +56,25 @@
                     {% csrf_token %}
 
                     <div>
+                        <a href="{% url 'check_dates' %}?announce={{ info_code }}">
+                            Veuillez cliquer ici afin de connaitre les disponibilités de la location s'il vous plaît
+                            <br/>
+                        </a>
+                    </div>
+
+                    <div>
                         <p class="font_size_large">Date à la quelle vous désirez louer cette location</p>
                         <input type="text" id="datepicker_to_go" class="datepicker" name="date_min">
                         <p class="margin_15 font_size_large">Date à la quelle vous désirez partir</p>
                         <input type="text" id="datepicker_return" class="datepicker"
                                name="date_max">
                     </div>
+
+                    {% if error_rent_day %}
+                    <div class="info_des">
+                        <p class="result_error">{{ error_rent_day }}</p>
+                    </div>
+                    {% endif %}
 
                     <button class="btn btn-primary btn-xs js-scroll-trigger margin_15 margin_bot_15"
                             onclick="connect()" id="connect">

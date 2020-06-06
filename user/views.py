@@ -8,7 +8,6 @@ this view file because it gives access to forms and templates
 Imports of Django lib, is a base for well functioning"""
 
 # Import lib
-import os
 import time
 from datetime import date, datetime
 from random import randrange
@@ -17,7 +16,7 @@ from random import randrange
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
 from django.core.paginator import Paginator
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 
@@ -300,7 +299,6 @@ def delete_rent_available(request):
         else:
             context['error_cancel'] = 'Un problème est survenu ' \
                                       'veuillez réessayer ultérieurement.'
-
     else:
         context['error_cancel'] = 'Vous devez être connecté ' \
                                   'pour accéder à cette page'
@@ -330,7 +328,6 @@ def rent_now(request):
     announce_id = request.GET.get('announce')
     # Filter the id of the rental for be sure that is a good rental
     announce = Announces.objects.filter(code=announce_id)
-    booking = Booking.objects.filter(code=announce_id)
     for info in announce:
         context['info_pk'] = info.pk
         context['info_code'] = info.code
@@ -343,63 +340,81 @@ def rent_now(request):
             context['informations_announces'] = announce
             context['form_ad'] = Rent_Now()
             context['form_announce'] = AnnounceForm()
-            check_the_available_dates(request, booking)
             return render(request, 'search/rent_now.html', context)
 
 
-def check_the_available_dates(request, booking):
-    pass
-    """
-    all_dates_d1 = []
-    all_dates_d2 = []
-    for info in booking:
-        date_min_good = info.date_min.replace("-", "/")
-        date_max_good = info.date_max.replace("-", "/")
-        d1 = (datetime.strptime(date_min_good, "%d/%m/%Y"))
-        d2 = (datetime.strptime(date_max_good, "%d/%m/%Y"))
-        if d1 not in all_dates_d1:
-            all_dates_d1.append(d1)
-        if d2 not in all_dates_d2:
-            all_dates_d2.append(d2)
-        file_date_min = os.path.isfile("user/date_min.txt")
-        file_date_max = os.path.isfile("user/date_max.txt")
-        if file_date_min is True:
-            os.remove("user/date_min.txt")
-        if file_date_max is True:
-            os.remove("user/date_max.txt")
-        with open("user/date_min.txt", "x") as file:
-            for info_dates in all_dates_d1:
-                file.write(str(info_dates))
-        with open("user/date_max.txt", "x") as file:
-            for info_dates in all_dates_d2:
-                file.write("\n" + str(info_dates))
-        """
+def check_the_available_dates(request):
+    """This method check if dates is available or not"""
+    context = {}
+    announce_id = request.GET.get('announce')
+    booking = Booking.objects.filter(code=announce_id)
+    all_dates_min = []
+    all_dates_max = []
+
+    # Create a loop to add the dates in two different lists
+    a = 0
+    while a != len(booking):
+        for info in booking:
+            if info.date_min not in all_dates_min:
+                all_dates_min.append(info.date_min)
+            if info.date_max not in all_dates_max:
+                all_dates_max.append(info.date_max)
+        a += 1
+
+        context['form_announce'] = AnnounceForm()
+        context['dates_min'] = all_dates_min
+        context['dates_max'] = all_dates_max
+        return render(request, 'user/check_dates.html', context)
 
 
 def rent_validation(request):
     """Rent_validation is there to confirm of the rental"""
-    context = {}
     announce_id = request.GET.get('announce')
     # Filter the id of the rental for be sure that is a good rental
     announce = Announces.objects.filter(code=announce_id)
+    all_booking = Booking.objects.all()
+    list_dates_min = []
+    list_dates_max = []
+
     if request.method == 'POST':
         # Prepare the amount for payment and check dates
         date_min = request.POST.get('date_min')
         date_max = request.POST.get('date_max')
-        date_min_good = date_min.replace("-", "/")
-        date_max_good = date_max.replace("-", "/")
-        d1 = (datetime.strptime(date_min_good, "%d/%m/%Y"))
-        d2 = (datetime.strptime(date_max_good, "%d/%m/%Y"))
-        time_booking = str(f"{d1.day - d2.day}")
-        correct_time = time_booking.replace("-", "")
-        for info in announce:
-            context['form_announce'] = AnnounceForm()
-            amount = info.price_day * int(correct_time)
-            user = User.objects.get(pk=info.user_id)
-            get_info_booking(request, announce, date_min, date_max)
-            return payment_process(request, info,
-                                   user.email_paypal,
-                                   amount)
+
+        # Add the dates in the lists to carry out the verifications
+        for booking in all_booking:
+            list_dates_min.append(booking.date_min)
+            list_dates_max.append(booking.date_max)
+
+        # Check the dates with the lists
+        if date_min not in list_dates_min:
+            if date_max not in list_dates_max:
+                return rent_validation_2(request, announce,
+                                         date_min, date_max)
+            else:
+                return check_the_available_dates(request)
+        else:
+            return check_the_available_dates(request)
+
+
+def rent_validation_2(request, announce, date_min, date_max):
+    """This method allow of cut rent_validation a two parts
+    She manage the process finish """
+    context = {}
+    date_min_good = date_min.replace("-", "/")
+    date_max_good = date_max.replace("-", "/")
+    d1 = (datetime.strptime(date_min_good, "%d/%m/%Y"))
+    d2 = (datetime.strptime(date_max_good, "%d/%m/%Y"))
+    time_booking = str(f"{d1.day - d2.day}")
+    correct_time = time_booking.replace("-", "")
+    for info in announce:
+        context['form_announce'] = AnnounceForm()
+        amount = info.price_day * int(correct_time)
+        user = User.objects.get(pk=info.user_id)
+        get_info_booking(request, announce, date_min, date_max)
+        return payment_process(request, info,
+                               user.email_paypal,
+                               amount)
 
 
 def rented(request):
