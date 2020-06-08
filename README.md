@@ -28,7 +28,7 @@ Ce code permet à l'application de communiquer avec ses utilisateurs par le bias
 ### Installation du code en production
 -git clone https://github.com/Kyossen/ImmoLocation_Project.git         
 -pip3 install -r requirements.txt        
--Accéder au fichier __init__.py puis effectuer les démarches suivantes:        
+#### -Accéder au fichier __init__.py  dans le dossier immolocation/settings/ puis effectuer les démarches suivantes:        
   -DEBUG = True -> DEBUG = False        
   -PAYPAL_TEST = True -> PAYPAL_TEST = False        
   -Configurer l'accès à la base de données avec vos identifiants         
