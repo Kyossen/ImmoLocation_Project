@@ -6,18 +6,18 @@ Elle vous permettra d'obtenir les coordonnées de ce bien, mais également ceux 
 Cette application vous permettra d'effectuer une location de manière sécurisé par PayPal.     
 Elle permet également, via le contact du propriétaire, la possibilité de négocier avec ce dernier afin de pouvoir payer en main propre le montant de la location.
 
-Explication:
+### Courte explications des fonctionnalités de base:
 
-Un utilisateur peux s'inscire et ce connecet à la palteforme
+#### Inscirption/Connexion
+-Un utilisateur peux s'inscire et ce connecter à la palteforme
 
+#### Mise à disposition d'un bien
+-Un utilisateur peux créer une annonce
+-Un utilisateur peux gérer sa location (modifier les photos, prix, etc ...)
 
-Un utilisateur peux créer l'annonce d'une location
-Un utilisateur peux gérer sa location (modifier les photos, prix, etc ...)
-
-
-Côté reservations;
-Un utilisateur peux rechercher une location via le nom d'un pays ou d'une ville
-Un utilisateur peux louer l'annonce de son choix quant il le souhaite à condition que ce dernier soit disponibles au dates préalblement vouslus par l'utilisateur
+#### Côté reservation
+-Un utilisateur peux rechercher une location via le nom d'une ville ou d'un pays
+-Un utilisateur peux louer l'annonce de son choix quant il le souhaite, à condition que cette dernière soit disponible au dates préalblement choisi par l'utilisateur
 
 
 
