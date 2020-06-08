@@ -26,20 +26,20 @@ Ce code est disposé à être mise en ligne.
 Ce code permet à l'application de communiquer avec ses utilisateurs par le bias d'une adresse email de votre choix.
 
 ### Installation du code en production
--git clone https://github.com/Kyossen/ImmoLocation_Project.git
--pip3 install -r requirements.txt
--Accéder au fichier __init__.py puis effectuer les démarches suivantes:
-  -DEBUG = True -> DEBUG = False
-  -PAYPAL_TEST = True -> PAYPAL_TEST = False
-  -Configurer l'accès à la base de données avec vos identifiants
-  -Configurer l'accès à votre adresse email
+-git clone https://github.com/Kyossen/ImmoLocation_Project.git         
+-pip3 install -r requirements.txt        
+-Accéder au fichier __init__.py puis effectuer les démarches suivantes:        
+  -DEBUG = True -> DEBUG = False        
+  -PAYPAL_TEST = True -> PAYPAL_TEST = False        
+  -Configurer l'accès à la base de données avec vos identifiants         
+  -Configurer l'accès à votre adresse email         
 
 ### Lancer le serveur
--sudo python3 manage.py runserver
+-sudo python3 manage.py runserver        
 
 ## Pré-requis:
--HTML 5
--CSS 3 / BootStrap
--JavaScript / Jquery
--Python 3.x / Django 2.22 (minimum)
--PosteGreSQL
+-HTML 5        
+-CSS 3 / BootStrap       
+-JavaScript / Jquery        
+-Python 3.x / Django 2.22 (minimum)        
+-PosteGreSQL           
