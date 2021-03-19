@@ -9,7 +9,7 @@ dj-database-url==0.5.0
 Django==2.2.4
 django-paypal==1.0.0
 django-reservation==0.2.9
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 entrypoints==0.3
 flake8==3.7.9
 Flask==1.1.1
