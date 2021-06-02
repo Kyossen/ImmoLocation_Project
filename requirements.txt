@@ -31,7 +31,7 @@ reverse==0.1.0
 selenium==3.141.0
 six==1.15.0
 sqlparse==0.3.0
-urllib3==1.25.3
+urllib3==1.26.5
 users==1.0.dev0
 Werkzeug==0.15.5
 whitenoise==4.1.4
