@@ -6,7 +6,7 @@ chardet==3.0.4
 Click==7.0
 coverage==4.5.4
 dj-database-url==0.5.0
-Django==2.2.4
+Django==2.2.24
 django-paypal==1.0.0
 django-reservation==0.2.9
 djangorestframework==3.11.0
